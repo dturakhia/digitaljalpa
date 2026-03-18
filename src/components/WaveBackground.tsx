@@ -53,8 +53,7 @@ export function WaveBackground({ motionX, motionY }: WaveBackgroundProps) {
   return (
     <svg
       ref={svgRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ zIndex: 0, opacity: 0.06 }}
+      style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0, opacity: 0.06 }}
     >
       {[0, 1, 2, 3, 4].map(i => (
         <path key={i} stroke="#000" strokeWidth={1} fill="none" />

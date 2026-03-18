@@ -133,12 +133,16 @@ export function BlobReveal({ onMouseMove }: BlobRevealProps) {
     }
   }, [onMouseMove])
 
+  const fill: React.CSSProperties = {
+    position: 'absolute', top: 0, right: 0, bottom: 0, left: 0,
+  }
+
   return (
-    <div ref={containerRef} className="absolute inset-0" style={{ zIndex: 1 }}>
+    <div ref={containerRef} style={{ ...fill, zIndex: 1 }}>
       {/* Hero 1 — ALWAYS visible via CSS, zero JS dependency */}
       <div
-        className="absolute inset-0"
         style={{
+          ...fill,
           backgroundImage: 'url(/images/hero-1.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center top',
@@ -147,8 +151,8 @@ export function BlobReveal({ onMouseMove }: BlobRevealProps) {
       {/* Hero 2 — clip-path revealed by blob */}
       <div
         ref={revealRef}
-        className="absolute inset-0"
         style={{
+          ...fill,
           backgroundImage: 'url(/images/hero-2.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center top',

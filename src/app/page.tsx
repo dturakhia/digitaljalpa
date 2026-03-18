@@ -36,7 +36,7 @@ export default function Home() {
       style={{ cursor: 'none' }}
     >
       {/* Wave background z:0 — behind everything */}
-      <div className="absolute inset-0" style={{ zIndex: 0 }}>
+      <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 0 }}>
         <WaveBackground motionX={rawX} motionY={rawY} />
       </div>
 
