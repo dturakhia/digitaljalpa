@@ -44,10 +44,10 @@ export default function Home() {
 
         {/* HERO */}
         <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '120px 24px 80px' }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto', width: '100%', display: 'flex', alignItems: 'center', gap: 80, flexWrap: 'wrap' as const }}>
+          <div className="hero-row" style={{ maxWidth: 1100, margin: '0 auto', width: '100%' }}>
 
             {/* Text */}
-            <div style={{ flex: 1, minWidth: 300 }}>
+            <div className="hero-text">
               <div style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '6px 16px', borderRadius: 9999,
@@ -106,12 +106,7 @@ export default function Home() {
               <div className="hero-photo-inner">
                 <Image src="/images/hero-1.jpg" alt="Jalpa Turakhia" fill style={{ objectFit: 'cover', objectPosition: 'center top' }} priority />
               </div>
-              <div style={{
-                position: 'absolute', bottom: -20, left: -24, zIndex: 2,
-                background: 'rgba(4,13,18,0.92)', backdropFilter: 'blur(12px)',
-                border: '1px solid rgba(8,145,178,0.25)', borderRadius: 12,
-                padding: '10px 16px',
-              }}>
+              <div className="hero-photo-badge">
                 <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', marginBottom: 2 }}>Specialization</div>
                 <div style={{ fontSize: 12, fontWeight: 700 }}>AI × Marketing × Growth</div>
               </div>
@@ -195,7 +190,7 @@ export default function Home() {
       {/* FOOTER */}
       <footer style={{ background: '#020a0f', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '60px 24px 32px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div className="footer-cols" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' as const, gap: 32, marginBottom: 60 }}>
+          <div className="footer-cols">
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
                 <div style={{ width: 14, height: 14, background: ACCENT, borderRadius: 3, transform: 'rotate(45deg)' }} />
