@@ -3,6 +3,14 @@
 import { useEffect, useRef, useCallback } from 'react'
 import { createNoise2D } from 'simplex-noise'
 
+// Constants outside component — not recreated on re-renders
+const BLOB_RADIUS    = 170
+const NOISE_STRENGTH = 0.32
+const LERP_SPEED     = 0.09
+const TRAIL_LIFE     = 700
+
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t
+
 interface Trail {
   x: number
   y: number
@@ -27,13 +35,6 @@ export function BlobReveal({ onMouseMove }: BlobRevealProps) {
   const timeRef = useRef(0)
   const lastTrailRef = useRef({ x: 0, y: 0, time: 0 })
   const imagesLoadedRef = useRef(0)
-
-  const BLOB_RADIUS = 170
-  const NOISE_STRENGTH = 0.32
-  const LERP = 0.09
-  const TRAIL_LIFE = 700
-
-  const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
   const drawBlob = useCallback((ctx: CanvasRenderingContext2D, cx: number, cy: number, radius: number, noiseOff: number) => {
     const noise = noiseRef.current
@@ -76,8 +77,8 @@ export function BlobReveal({ onMouseMove }: BlobRevealProps) {
     const mouse = mouseRef.current
     const blob = blobRef.current
 
-    blob.x = lerp(blob.x < -900 ? mouse.x : blob.x, mouse.x, LERP)
-    blob.y = lerp(blob.y < -900 ? mouse.y : blob.y, mouse.y, LERP)
+    blob.x = lerp(blob.x < -900 ? mouse.x : blob.x, mouse.x, LERP_SPEED)
+    blob.y = lerp(blob.y < -900 ? mouse.y : blob.y, mouse.y, LERP_SPEED)
 
     timeRef.current += 0.008
 

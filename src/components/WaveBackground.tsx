@@ -1,23 +1,17 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import type { MotionValue } from 'framer-motion'
 
 interface WaveBackgroundProps {
-  mouseX: number
-  mouseY: number
+  motionX: MotionValue<number>
+  motionY: MotionValue<number>
 }
 
-export function WaveBackground({ mouseX, mouseY }: WaveBackgroundProps) {
-  const svgRef = useRef<SVGSVGElement>(null)
+export function WaveBackground({ motionX, motionY }: WaveBackgroundProps) {
+  const svgRef  = useRef<SVGSVGElement>(null)
   const timeRef = useRef(0)
-  const rafRef = useRef<number>(0)
-  // Use refs for mouse position so the RAF loop never needs to restart
-  const mouseRef = useRef({ x: mouseX, y: mouseY })
-
-  // Sync latest mouse position into ref without restarting the RAF loop
-  useEffect(() => {
-    mouseRef.current = { x: mouseX, y: mouseY }
-  }, [mouseX, mouseY])
+  const rafRef  = useRef<number>(0)
 
   useEffect(() => {
     const animate = () => {
@@ -25,19 +19,18 @@ export function WaveBackground({ mouseX, mouseY }: WaveBackgroundProps) {
       const svg = svgRef.current
       if (!svg) { rafRef.current = requestAnimationFrame(animate); return }
 
-      const W = window.innerWidth
-      const H = window.innerHeight
-      const { x: mx_raw, y: my_raw } = mouseRef.current
-      const mx = (mx_raw / W - 0.5) * 20
-      const my = (my_raw / H - 0.5) * 15
+      const W  = window.innerWidth
+      const H  = window.innerHeight
+      // Read directly from motion values — no re-renders, always current
+      const mx = (motionX.get() / W - 0.5) * 20
+      const my = (motionY.get() / H - 0.5) * 15
 
-      const paths = svg.querySelectorAll('path')
-      paths.forEach((path, i) => {
-        const t = timeRef.current + i * 0.6
+      svg.querySelectorAll('path').forEach((path, i) => {
+        const t      = timeRef.current + i * 0.6
         const offset = mx * (i + 1) * 0.4
-        const yBase = H * (0.2 + i * 0.15)
-        const amp = 12 + i * 6 + my * (i + 1) * 0.3
-        const freq = 0.003 + i * 0.001
+        const yBase  = H * (0.2 + i * 0.15)
+        const amp    = 12 + i * 6 + my * (i + 1) * 0.3
+        const freq   = 0.003 + i * 0.001
 
         let d = `M 0 ${yBase}`
         for (let x = 0; x <= W; x += 30) {
@@ -55,7 +48,7 @@ export function WaveBackground({ mouseX, mouseY }: WaveBackgroundProps) {
 
     rafRef.current = requestAnimationFrame(animate)
     return () => cancelAnimationFrame(rafRef.current)
-  }, []) // ← empty deps: loop starts once, reads mouse from ref each frame
+  }, [motionX, motionY]) // stable MotionValue references — only runs once
 
   return (
     <svg

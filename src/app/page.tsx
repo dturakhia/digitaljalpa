@@ -1,43 +1,50 @@
 'use client'
 
-import { useState, useCallback } from 'react'
-import { motion } from 'framer-motion'
+import { useCallback } from 'react'
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
 import Link from 'next/link'
 import { BlobReveal } from '@/components/BlobReveal'
 import { WaveBackground } from '@/components/WaveBackground'
 import { SocialIcons } from '@/components/SocialIcons'
 
 export default function Home() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  // Motion values — updates bypass React re-renders entirely
+  const rawX = useMotionValue(0)
+  const rawY = useMotionValue(0)
 
+  // Spring-smoothed values for parallax
+  const smoothX = useSpring(rawX, { stiffness: 60, damping: 20 })
+  const smoothY = useSpring(rawY, { stiffness: 60, damping: 20 })
+
+  // Parallax: elements drift OPPOSITE to cursor movement
+  const nameX   = useTransform(smoothX, v => -(v / (typeof window !== 'undefined' ? window.innerWidth  : 1440) - 0.5) * 18)
+  const nameY   = useTransform(smoothY, v => -(v / (typeof window !== 'undefined' ? window.innerHeight : 900)  - 0.5) * 12)
+  const navX    = useTransform(nameX, v => v * -0.5)
+  const navY    = useTransform(nameY, v => v *  0.5)
+  const socialX = useTransform(nameX, v => v * -0.7)
+  const socialY = useTransform(nameY, v => v * -0.7)
+
+  // BlobReveal calls this at ~60fps — no re-render, just motion value updates
   const handleMouseMove = useCallback((x: number, y: number) => {
-    setMousePos({ x, y })
-  }, [])
-
-  // Parallax transforms — elements move OPPOSITE to cursor
-  const W = typeof window !== 'undefined' ? window.innerWidth : 1440
-  const H = typeof window !== 'undefined' ? window.innerHeight : 900
-
-  // Compute parallax offset manually via state
-  const px = -(mousePos.x / W - 0.5) * 18
-  const py = -(mousePos.y / H - 0.5) * 12
+    rawX.set(x)
+    rawY.set(y)
+  }, [rawX, rawY])
 
   return (
     <main
       className="relative w-screen h-screen overflow-hidden bg-white"
       style={{ cursor: 'none' }}
     >
-      {/* Wave background */}
-      <WaveBackground mouseX={mousePos.x} mouseY={mousePos.y} />
+      {/* Wave background — reads from rawX/rawY via WaveBackground's own ref sync */}
+      <WaveBackground motionX={rawX} motionY={rawY} />
 
-      {/* Blob reveal (both images + canvas) */}
+      {/* Blob reveal canvas */}
       <BlobReveal onMouseMove={handleMouseMove} />
 
       {/* TOP LEFT — Name */}
       <motion.div
         className="absolute top-8 left-10 z-20 select-none"
-        animate={{ x: px, y: py }}
-        transition={{ type: 'spring', stiffness: 60, damping: 20 }}
+        style={{ x: nameX, y: nameY }}
       >
         <h1
           style={{
@@ -58,8 +65,7 @@ export default function Home() {
       {/* TOP RIGHT — Portfolio link */}
       <motion.div
         className="absolute top-10 right-10 z-20"
-        animate={{ x: -px * 0.5, y: py * 0.5 }}
-        transition={{ type: 'spring', stiffness: 60, damping: 20 }}
+        style={{ x: navX, y: navY }}
       >
         <Link
           href="/portfolio"
@@ -81,8 +87,7 @@ export default function Home() {
       {/* BOTTOM RIGHT — Social icons */}
       <motion.div
         className="absolute bottom-8 right-10 z-20"
-        animate={{ x: -px * 0.7, y: -py * 0.7 }}
-        transition={{ type: 'spring', stiffness: 60, damping: 20 }}
+        style={{ x: socialX, y: socialY }}
       >
         <SocialIcons />
       </motion.div>
