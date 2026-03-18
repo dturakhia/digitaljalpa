@@ -64,8 +64,12 @@ export function BlobReveal({ onMouseMove }: BlobRevealProps) {
       return
     }
 
-    const W = container.offsetWidth
-    const H = container.offsetHeight
+    const W = container.offsetWidth  || window.innerWidth
+    const H = container.offsetHeight || window.innerHeight
+    if (W === 0 || H === 0) {
+      rafRef.current = requestAnimationFrame(() => renderRef.current())
+      return
+    }
     if (canvas.width !== W || canvas.height !== H) {
       canvas.width = W
       canvas.height = H
@@ -214,8 +218,22 @@ export function BlobReveal({ onMouseMove }: BlobRevealProps) {
   }, [render])
 
   return (
-    <div ref={containerRef} className="absolute inset-0">
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+    <div
+      ref={containerRef}
+      className="absolute inset-0"
+      style={{
+        // CSS fallback: hero-1 shows immediately while canvas images load
+        backgroundImage: 'url(/images/hero-1.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        zIndex: 1,
+      }}
+    >
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full"
+        style={{ zIndex: 2 }}
+      />
     </div>
   )
 }

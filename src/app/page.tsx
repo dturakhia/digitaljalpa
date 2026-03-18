@@ -35,8 +35,10 @@ export default function Home() {
       className="relative w-screen h-screen overflow-hidden bg-white"
       style={{ cursor: 'none' }}
     >
-      {/* Wave background — reads from rawX/rawY via WaveBackground's own ref sync */}
-      <WaveBackground motionX={rawX} motionY={rawY} />
+      {/* Wave background z:0 — behind everything */}
+      <div className="absolute inset-0" style={{ zIndex: 0 }}>
+        <WaveBackground motionX={rawX} motionY={rawY} />
+      </div>
 
       {/* Blob reveal canvas */}
       <BlobReveal onMouseMove={handleMouseMove} />
