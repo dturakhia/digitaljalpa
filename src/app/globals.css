@@ -25,3 +25,48 @@ html, body {
   .font-playfair { font-family: var(--font-playfair); }
   .font-manrope { font-family: var(--font-manrope); }
 }
+
+/* ── Responsive navbar ───────────────────────── */
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+
+/* ── Responsive hero ─────────────────────────── */
+.hero-photo-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.hero-photo-inner {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(8,145,178,0.3);
+}
+
+@media (max-width: 680px) {
+  /* Hide nav links on mobile — show only logo + CTA */
+  .nav-links { display: none; }
+
+  /* Smaller navbar padding on mobile */
+  .nav-inner { padding: 10px 16px !important; }
+
+  /* Hero photo: full width, centered, smaller */
+  .hero-photo-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 8px;
+  }
+  .hero-photo-inner {
+    width: 100%;
+    max-width: 280px;
+    height: 320px;
+  }
+
+  /* Footer columns stack */
+  .footer-cols { flex-direction: column !important; gap: 32px !important; }
+}

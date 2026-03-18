@@ -12,7 +12,7 @@ export default function Home() {
 
       {/* NAVBAR */}
       <header style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 50, padding: '24px 16px' }}>
-        <nav style={{
+        <nav className="nav-inner" style={{
           maxWidth: 1000, margin: '0 auto',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           background: 'rgba(4,13,18,0.75)', backdropFilter: 'blur(20px)',
@@ -23,7 +23,7 @@ export default function Home() {
             <div style={{ width: 16, height: 16, background: ACCENT, borderRadius: 3, transform: 'rotate(45deg)' }} />
             <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: '-0.02em' }}>digitaljalpa</span>
           </div>
-          <div style={{ display: 'flex', gap: 28 }}>
+          <div className="nav-links">
             {(['Services', 'About', 'Results', 'Contact'] as const).map(l => (
               <a key={l} href={`#${l.toLowerCase()}`}
                 style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}
@@ -97,17 +97,13 @@ export default function Home() {
             </div>
 
             {/* Photo */}
-            <div style={{ position: 'relative', flexShrink: 0 }}>
+            <div className="hero-photo-wrap">
               <div style={{
                 position: 'absolute', inset: '-2px',
                 background: `linear-gradient(135deg,${ACCENT},transparent)`,
                 borderRadius: 24,
               }} />
-              <div style={{
-                position: 'relative',
-                width: 300, height: 400, borderRadius: 22, overflow: 'hidden',
-                border: '1px solid rgba(8,145,178,0.3)',
-              }}>
+              <div className="hero-photo-inner">
                 <Image src="/images/hero-1.jpg" alt="Jalpa Turakhia" fill style={{ objectFit: 'cover', objectPosition: 'center top' }} priority />
               </div>
               <div style={{
@@ -199,7 +195,7 @@ export default function Home() {
       {/* FOOTER */}
       <footer style={{ background: '#020a0f', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '60px 24px 32px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' as const, gap: 32, marginBottom: 60 }}>
+          <div className="footer-cols" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' as const, gap: 32, marginBottom: 60 }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
                 <div style={{ width: 14, height: 14, background: ACCENT, borderRadius: 3, transform: 'rotate(45deg)' }} />
