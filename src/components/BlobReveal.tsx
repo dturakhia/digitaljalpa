@@ -51,13 +51,15 @@ export function BlobReveal({ onMouseMove }: BlobRevealProps) {
     ctx.closePath()
   }, [])
 
+  const renderRef = useRef<() => void>(() => {})
+
   const render = useCallback(() => {
     const canvas = canvasRef.current
     const container = containerRef.current
     const img1 = img1Ref.current
     const img2 = img2Ref.current
     if (!canvas || !container || !img1 || !img2 || imagesLoadedRef.current < 2) {
-      rafRef.current = requestAnimationFrame(render)
+      rafRef.current = requestAnimationFrame(() => renderRef.current())
       return
     }
 
@@ -142,8 +144,13 @@ export function BlobReveal({ onMouseMove }: BlobRevealProps) {
       onMouseMove?.(blob.x, blob.y)
     }
 
-    rafRef.current = requestAnimationFrame(render)
+    rafRef.current = requestAnimationFrame(() => renderRef.current())
   }, [drawBlob, onMouseMove])
+
+  // Keep renderRef in sync so the RAF callback always calls the latest version
+  useEffect(() => {
+    renderRef.current = render
+  }, [render])
 
   useEffect(() => {
     // Load both images

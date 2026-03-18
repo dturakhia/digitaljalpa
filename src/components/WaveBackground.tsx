@@ -11,6 +11,13 @@ export function WaveBackground({ mouseX, mouseY }: WaveBackgroundProps) {
   const svgRef = useRef<SVGSVGElement>(null)
   const timeRef = useRef(0)
   const rafRef = useRef<number>(0)
+  // Use refs for mouse position so the RAF loop never needs to restart
+  const mouseRef = useRef({ x: mouseX, y: mouseY })
+
+  // Sync latest mouse position into ref without restarting the RAF loop
+  useEffect(() => {
+    mouseRef.current = { x: mouseX, y: mouseY }
+  }, [mouseX, mouseY])
 
   useEffect(() => {
     const animate = () => {
@@ -20,8 +27,9 @@ export function WaveBackground({ mouseX, mouseY }: WaveBackgroundProps) {
 
       const W = window.innerWidth
       const H = window.innerHeight
-      const mx = (mouseX / W - 0.5) * 20
-      const my = (mouseY / H - 0.5) * 15
+      const { x: mx_raw, y: my_raw } = mouseRef.current
+      const mx = (mx_raw / W - 0.5) * 20
+      const my = (my_raw / H - 0.5) * 15
 
       const paths = svg.querySelectorAll('path')
       paths.forEach((path, i) => {
@@ -33,7 +41,10 @@ export function WaveBackground({ mouseX, mouseY }: WaveBackgroundProps) {
 
         let d = `M 0 ${yBase}`
         for (let x = 0; x <= W; x += 30) {
-          const y = yBase + Math.sin(x * freq + t + offset * 0.05) * amp + Math.cos(x * freq * 0.7 + t * 0.8) * (amp * 0.5)
+          const y =
+            yBase +
+            Math.sin(x * freq + t + offset * 0.05) * amp +
+            Math.cos(x * freq * 0.7 + t * 0.8) * (amp * 0.5)
           d += ` L ${x} ${y}`
         }
         path.setAttribute('d', d)
@@ -44,7 +55,7 @@ export function WaveBackground({ mouseX, mouseY }: WaveBackgroundProps) {
 
     rafRef.current = requestAnimationFrame(animate)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [mouseX, mouseY])
+  }, []) // ← empty deps: loop starts once, reads mouse from ref each frame
 
   return (
     <svg
