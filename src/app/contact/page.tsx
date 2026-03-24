@@ -30,16 +30,27 @@ export default function Contact() {
     message: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Build mailto with form data
-    const subject = encodeURIComponent(`[digitaljalpa] ${formData.service || 'Enquiry'} — ${formData.name}`)
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nService: ${formData.service}\n\nMessage:\n${formData.message}`
-    )
-    window.location.href = `mailto:jalpa@digitaljalpa.com?subject=${subject}&body=${body}`
-    setSubmitted(true)
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Something went wrong')
+      setSubmitted(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const inputStyle = {
@@ -159,12 +170,21 @@ export default function Contact() {
                     />
                   </div>
 
-                  <button type="submit" style={{
-                    background: ACCENT, color: 'white', border: 'none', borderRadius: 9999,
-                    padding: '16px 32px', fontSize: 14, fontWeight: 700, cursor: 'pointer',
-                    boxShadow: `0 0 28px rgba(8,145,178,0.3)`, fontFamily: "'Manrope', sans-serif",
+                  {error && (
+                    <div style={{ padding: '12px 16px', background: 'rgba(255,60,60,0.08)', border: '1px solid rgba(255,60,60,0.2)', borderRadius: 10, fontSize: 13, color: '#ff6b6b' }}>
+                      {error}
+                    </div>
+                  )}
+                  <button type="submit" disabled={loading} style={{
+                    background: loading ? 'rgba(8,145,178,0.5)' : ACCENT,
+                    color: 'white', border: 'none', borderRadius: 9999,
+                    padding: '16px 32px', fontSize: 14, fontWeight: 700,
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    boxShadow: loading ? 'none' : `0 0 28px rgba(8,145,178,0.3)`,
+                    fontFamily: "'Manrope', sans-serif",
+                    transition: 'all 0.2s',
                   }}>
-                    Send Message →
+                    {loading ? 'Sending...' : 'Send Message →'}
                   </button>
                   <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)', textAlign: 'center' }}>
                     I reply within 24 hours.
