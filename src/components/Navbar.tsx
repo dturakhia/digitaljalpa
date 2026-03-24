@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Logo } from './Logo'
 
 const ACCENT = '#0891B2'
 
@@ -22,12 +23,11 @@ export function Navbar() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         background: 'rgba(4,13,18,0.85)', backdropFilter: 'blur(20px)',
         border: '1px solid rgba(255,255,255,0.08)', borderRadius: 9999,
-        padding: '12px 28px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+        padding: '10px 20px 10px 16px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
       }}>
         {/* Logo */}
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <div style={{ width: 16, height: 16, background: ACCENT, borderRadius: 3, transform: 'rotate(45deg)', flexShrink: 0 }} />
-          <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: '-0.02em', color: 'white' }}>digitaljalpa</span>
+        <Link href="/" style={{ textDecoration: 'none' }}>
+          <Logo size={34} />
         </Link>
 
         {/* Links */}

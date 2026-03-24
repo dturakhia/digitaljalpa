@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { StarField } from '@/components/StarField'
 import { Navbar } from '@/components/Navbar'
 import { JalpaAvatar } from '@/components/JalpaAvatar'
+import { Logo } from '@/components/Logo'
 
 const ACCENT = '#0891B2'
 
@@ -248,11 +249,10 @@ export default function Home() {
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div className="footer-cols">
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-                <div style={{ width: 14, height: 14, background: ACCENT, borderRadius: 3, transform: 'rotate(45deg)' }} />
-                <span style={{ fontSize: 18, fontWeight: 700 }}>digitaljalpa</span>
+              <div style={{ marginBottom: 16 }}>
+                <Logo size={36} />
               </div>
-              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', maxWidth: 240, lineHeight: 1.75 }}>AI Tools Expert — I implement, consult on, and teach AI tools that actually move the needle for your business.</p>
+              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', maxWidth: 240, lineHeight: 1.75 }}>I implement, consult on, and teach AI tools that actually move the needle for your business.</p>
             </div>
             <div style={{ display: 'flex', gap: 48 }}>
               <div>
