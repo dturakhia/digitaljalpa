@@ -250,7 +250,7 @@ export default function Home() {
           <div className="footer-cols">
             <div>
               <div style={{ marginBottom: 16 }}>
-                <Logo size={36} />
+                <Logo height={40} showTagline={true} />
               </div>
               <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', maxWidth: 240, lineHeight: 1.75 }}>I implement, consult on, and teach AI tools that actually move the needle for your business.</p>
             </div>

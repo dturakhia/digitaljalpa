@@ -27,7 +27,7 @@ export function Navbar() {
       }}>
         {/* Logo */}
         <Link href="/" style={{ textDecoration: 'none' }}>
-          <Logo size={34} />
+          <Logo height={34} showTagline={false} />
         </Link>
 
         {/* Links */}

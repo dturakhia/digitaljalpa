@@ -1,136 +1,113 @@
 'use client'
 
-/**
- * digitaljalpa — Brand Logo
- *
- * Mark: Geometric "J" with a glowing AI-node at the origin.
- * The J is built from a vertical bar + a rounded arc,
- * with a pulsing dot at the base — the "spark" of intelligence.
- *
- * Usage:
- *   <Logo />                  — full lockup (mark + wordmark), default
- *   <Logo variant="mark" />   — icon only (navbars, favicons)
- *   <Logo variant="light" />  — white wordmark (dark backgrounds)
- *   <Logo size={48} />        — custom height
- */
-
 interface LogoProps {
-  variant?: 'full' | 'mark' | 'light'
-  size?: number
-  className?: string
+  height?: number
+  showTagline?: boolean
 }
 
-export function Logo({ variant = 'full', size = 40, className }: LogoProps) {
-  const accent = '#0891B2'
-  const white = '#FFFFFF'
-  const dim = 'rgba(255,255,255,0.45)'
+export function Logo({ height = 48, showTagline = true }: LogoProps) {
+  // Aspect ratio: 460 × 120 viewBox
+  const width = height * (460 / 120)
 
-  // Mark: 40×40 viewBox
-  const MarkSVG = ({ s }: { s: number }) => (
+  return (
     <svg
-      width={s}
-      height={s}
-      viewBox="0 0 40 40"
+      width={width}
+      height={height}
+      viewBox="0 0 460 120"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ display: 'block', flexShrink: 0 }}
     >
-      <defs>
-        <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor={accent} stopOpacity="0.9" />
-          <stop offset="100%" stopColor={accent} stopOpacity="0" />
-        </radialGradient>
-        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
+      {/* ── MARK — rounded square ───────────────────── */}
+      {/* Outer glow ring */}
+      <rect x="2" y="2" width="116" height="116" rx="26" stroke="#0891B2" strokeWidth="1" strokeOpacity="0.2" />
+      {/* Main box */}
+      <rect x="5" y="5" width="110" height="110" rx="23" fill="#061820" />
+      <rect x="5" y="5" width="110" height="110" rx="23" stroke="#0891B2" strokeWidth="1.5" strokeOpacity="0.5" />
 
-      {/* Outer container — rounded square */}
-      <rect width="40" height="40" rx="10" fill="rgba(8,145,178,0.1)" />
-      <rect width="40" height="40" rx="10" stroke={accent} strokeWidth="1" fill="none" strokeOpacity="0.35" />
-
-      {/* The J mark — vertical bar */}
-      <rect x="20" y="8" width="5" height="18" rx="2.5" fill={accent} />
-
-      {/* Horizontal top cap of J */}
-      <rect x="14" y="8" width="11" height="4.5" rx="2.25" fill={accent} />
-
-      {/* J arc — bottom curve (quarter circle) */}
+      {/* ── J letterform — single uniform stroke ──── */}
+      {/* Horizontal cap */}
+      <line x1="36" y1="24" x2="80" y2="24" stroke="#0891B2" strokeWidth="10" strokeLinecap="round" />
+      {/* Vertical stem + smooth bottom arc as one path */}
       <path
-        d="M 22.5 26 Q 22.5 33 15.5 33 Q 10 33 10 28"
-        stroke={accent}
-        strokeWidth="4.5"
+        d="M 70 24 L 70 75 C 70 97 36 97 36 80"
+        stroke="#0891B2"
+        strokeWidth="10"
         strokeLinecap="round"
+        strokeLinejoin="round"
         fill="none"
       />
 
-      {/* AI node — glowing dot at bottom of arc */}
-      <circle cx="10" cy="28" r="4" fill="url(#nodeGlow)" />
-      <circle cx="10" cy="28" r="2.5" fill={accent} filter="url(#glow)" />
-      <circle cx="10" cy="28" r="1.2" fill={white} />
+      {/* Node glow at arc tip */}
+      <circle cx="36" cy="80" r="13" fill="#0891B2" fillOpacity="0.12" />
+      <circle cx="36" cy="80" r="8"  fill="#0891B2" fillOpacity="0.28" />
+      <circle cx="36" cy="80" r="4.5" fill="#0891B2" />
+      <circle cx="36" cy="80" r="2"  fill="white" />
 
-      {/* Tiny tick marks — suggesting data/AI */}
-      <line x1="28" y1="14" x2="30" y2="14" stroke={accent} strokeWidth="1.2" strokeLinecap="round" strokeOpacity="0.5" />
-      <line x1="28" y1="17" x2="31" y2="17" stroke={accent} strokeWidth="1.2" strokeLinecap="round" strokeOpacity="0.35" />
-      <line x1="28" y1="20" x2="30" y2="20" stroke={accent} strokeWidth="1.2" strokeLinecap="round" strokeOpacity="0.2" />
+      {/* Tick marks — right of stem */}
+      <line x1="80" y1="38" x2="88" y2="38" stroke="#0891B2" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.6" />
+      <line x1="80" y1="50" x2="91" y2="50" stroke="#0891B2" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.4" />
+      <line x1="80" y1="62" x2="88" y2="62" stroke="#0891B2" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.25" />
+
+      {/* ── ORBIT DOT SEPARATOR ──────────────────────── */}
+      {/* Orbit ring (dashed) */}
+      <circle cx="148" cy="52" r="10" stroke="#0891B2" strokeWidth="1" strokeOpacity="0.4" strokeDasharray="3 2" fill="none" />
+      {/* Center dot */}
+      <circle cx="148" cy="52" r="5" fill="#0891B2" fillOpacity="0.25" />
+      <circle cx="148" cy="52" r="3" fill="#0891B2" />
+      <circle cx="148" cy="52" r="1.3" fill="white" fillOpacity="0.9" />
+
+      {/* ── WORDMARK ─────────────────────────────────── */}
+      {/* "DIGITAL" — light weight */}
+      <text
+        x="168" y="66"
+        fontFamily="system-ui,-apple-system,'Segoe UI',sans-serif"
+        fontSize="38" fontWeight="300"
+        fill="rgba(255,255,255,0.55)"
+        letterSpacing="3"
+      >DIGITAL</text>
+
+      {/* "JALPA" — bold */}
+      <text
+        x="310" y="66"
+        fontFamily="system-ui,-apple-system,'Segoe UI',sans-serif"
+        fontSize="38" fontWeight="800"
+        fill="white"
+        letterSpacing="1"
+      >JALPA</text>
+
+      {/* Tagline */}
+      {showTagline && (
+        <text
+          x="169" y="88"
+          fontFamily="system-ui,-apple-system,'Segoe UI',sans-serif"
+          fontSize="10" fontWeight="600"
+          fill="#0891B2"
+          letterSpacing="4"
+        >AI TOOLS EXPERT</text>
+      )}
     </svg>
   )
+}
 
-  if (variant === 'mark') {
-    return <MarkSVG s={size} />
-  }
-
-  // Full lockup
-  const wordmarkColor = variant === 'light' ? white : white
-  const taglineColor = dim
-
+// Mark-only version (just the icon, for favicons / small contexts)
+export function LogoMark({ size = 48 }: { size?: number }) {
   return (
-    <div
-      className={className}
-      style={{ display: 'inline-flex', alignItems: 'center', gap: 12 }}
-    >
-      <MarkSVG s={size} />
+    <svg width={size} height={size} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2"  y="2"  width="116" height="116" rx="26" stroke="#0891B2" strokeWidth="1" strokeOpacity="0.2" />
+      <rect x="5"  y="5"  width="110" height="110" rx="23" fill="#061820" />
+      <rect x="5"  y="5"  width="110" height="110" rx="23" stroke="#0891B2" strokeWidth="1.5" strokeOpacity="0.5" />
 
-      {/* Wordmark */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 0 }}>
-          <span style={{
-            fontSize: size * 0.38,
-            fontWeight: 400,
-            color: taglineColor,
-            letterSpacing: '0.01em',
-            fontFamily: "'Manrope', sans-serif",
-            lineHeight: 1,
-          }}>
-            digital
-          </span>
-          <span style={{
-            fontSize: size * 0.42,
-            fontWeight: 800,
-            color: wordmarkColor,
-            letterSpacing: '-0.02em',
-            fontFamily: "'Manrope', sans-serif",
-            lineHeight: 1,
-          }}>
-            jalpa
-          </span>
-        </div>
-        <span style={{
-          fontSize: size * 0.22,
-          fontWeight: 600,
-          color: accent,
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase' as const,
-          fontFamily: "'Manrope', sans-serif",
-          lineHeight: 1,
-        }}>
-          AI Tools Expert
-        </span>
-      </div>
-    </div>
+      <line x1="36" y1="24" x2="80" y2="24" stroke="#0891B2" strokeWidth="10" strokeLinecap="round" />
+      <path d="M 70 24 L 70 75 C 70 97 36 97 36 80" stroke="#0891B2" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+
+      <circle cx="36" cy="80" r="13"  fill="#0891B2" fillOpacity="0.12" />
+      <circle cx="36" cy="80" r="8"   fill="#0891B2" fillOpacity="0.28" />
+      <circle cx="36" cy="80" r="4.5" fill="#0891B2" />
+      <circle cx="36" cy="80" r="2"   fill="white" />
+
+      <line x1="80" y1="38" x2="88" y2="38" stroke="#0891B2" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.6" />
+      <line x1="80" y1="50" x2="91" y2="50" stroke="#0891B2" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.4" />
+      <line x1="80" y1="62" x2="88" y2="62" stroke="#0891B2" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.25" />
+    </svg>
   )
 }
