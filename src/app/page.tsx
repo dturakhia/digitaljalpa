@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { StarField } from '@/components/StarField'
 import { Navbar } from '@/components/Navbar'
-import { Logo } from '@/components/Logo'
 
 const ACCENT = '#0891B2'
 
@@ -250,7 +249,7 @@ export default function Home() {
           <div className="footer-cols">
             <div>
               <div style={{ marginBottom: 16 }}>
-                <Logo height={40} showTagline={true} />
+                <Image src="/images/logo.png" alt="Digital Jalpa" height={48} width={192} style={{ objectFit: 'contain' }} />
               </div>
               <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', maxWidth: 240, lineHeight: 1.75 }}>I implement, consult on, and teach AI tools that actually move the needle for your business.</p>
             </div>

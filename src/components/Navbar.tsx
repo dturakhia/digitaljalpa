@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import { Logo } from './Logo'
+import Image from 'next/image'
 
 const ACCENT = '#0891B2'
 
@@ -48,7 +48,7 @@ export function Navbar() {
         }}>
           {/* Logo */}
           <Link href="/" style={{ textDecoration: 'none', flexShrink: 0 }}>
-            <Logo height={32} showTagline={false} />
+            <Image src="/images/logo.png" alt="Digital Jalpa" height={40} width={160} style={{ objectFit: 'contain' }} />
           </Link>
 
           {/* Desktop links */}
