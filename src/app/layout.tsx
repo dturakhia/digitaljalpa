@@ -15,12 +15,12 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Jalpa Turakhia — AI Tools Expert',
-  description: 'AI Tools Expert helping startups and small businesses market smarter, create faster, and grow consistently.',
-  keywords: ['AI tools expert', 'social media', 'digital marketing', 'AI marketing', 'startups'],
+  title: 'Jalpa Turakhia — AI Tools Expert | Consultation & Mentoring',
+  description: 'AI Tools Expert who implements AI for businesses, consults on which tools to use, and mentors teams and individuals. India-based, global clients.',
+  keywords: ['AI tools expert', 'AI consultation', 'AI mentoring', 'AI implementation', 'ChatGPT consultant', 'AI tools India'],
   openGraph: {
     title: 'Jalpa Turakhia — AI Tools Expert',
-    description: 'Helping startups and small businesses harness the power of AI.',
+    description: 'I implement AI tools for businesses, consult on which tools to use, and mentor teams. India-based, global clients.',
     url: 'https://digitaljalpa.com',
     siteName: 'Digital Jalpa',
     type: 'website',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Jalpa Turakhia — AI Tools Expert',
-    description: 'Helping startups and small businesses harness the power of AI.',
+    description: 'I implement AI tools for businesses, consult on which tools to use, and mentor teams.',
   },
 }
 
