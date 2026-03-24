@@ -1,9 +1,9 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { StarField } from '@/components/StarField'
 import { Navbar } from '@/components/Navbar'
+import { JalpaAvatar } from '@/components/JalpaAvatar'
 
 const ACCENT = '#0891B2'
 
@@ -67,11 +67,11 @@ export default function About() {
               }}>Let&apos;s Talk →</Link>
             </div>
 
-            {/* Photo */}
+            {/* Avatar */}
             <div className="hero-photo-wrap">
               <div style={{ position: 'absolute', inset: '-2px', background: `linear-gradient(135deg,${ACCENT},transparent)`, borderRadius: 24 }} />
-              <div className="hero-photo-inner">
-                <Image src="/images/hero-1.jpg" alt="Jalpa Turakhia" fill style={{ objectFit: 'cover', objectPosition: 'center top' }} priority />
+              <div className="hero-photo-inner" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center', overflow: 'hidden', background: 'linear-gradient(180deg,#071520 0%,#0a1f2e 100%)' }}>
+                <JalpaAvatar size={300} />
               </div>
               <div className="hero-photo-badge">
                 <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', marginBottom: 2 }}>Based In</div>
